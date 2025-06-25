@@ -1,0 +1,65 @@
+<h1 class="text-4xl font-extrabold mb-6 text-center text-indigo-700 tracking-wide">
+  Whispr — Anonymous Confessions
+</h1>
+
+<!-- Flash Messages -->
+<% flash.each do |key, value| %>
+  <div class="mb-4 px-4 py-3 rounded shadow-lg
+              <%= key == "alert" ? 'bg-red-100 text-red-700 border border-red-300' : 'bg-green-100 text-green-700 border border-green-300' %>">
+    <strong><%= key.capitalize %>:</strong> <%= value %>
+  </div>
+<% end %>
+
+<!-- Confession Form -->
+<%= form_with model: @confession, local: true, html: { class: "bg-white shadow-lg rounded p-6 mb-8" } do |form| %>
+
+  <% if @confession.errors.any? %>
+    <div class="bg-red-100 border border-red-300 text-red-700 p-4 mb-4 rounded">
+      <h2 class="font-semibold text-lg mb-2">❗ Please fix the following errors:</h2>
+      <ul class="list-disc pl-5 text-sm">
+        <% @confession.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= form.text_area :body,
+      rows: 4,
+      placeholder: "Share your thoughts anonymously...",
+      class: "w-full p-4 border border-gray-300 rounded shadow-sm focus:ring-2 focus:ring-indigo-300 focus:outline-none transition" %>
+  </div>
+
+  <%= form.submit "Confess Now",
+      class: "bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2 rounded transition duration-200 shadow-md" %>
+<% end %>
+
+<!-- Confession Cards Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+  <% @confessions.each do |confession| %>
+    <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition duration-300 group border border-gray-200">
+      <p class="text-gray-700 mb-4 whitespace-pre-line text-base group-hover:text-black transition">
+        <%= confession.body %>
+      </p>
+
+      <!-- Reactions -->
+      <div class="flex justify-start space-x-4 text-lg">
+        <% ["like", "hug", "laugh"].each do |emoji| %>
+          <%= button_to confession_reactions_path(confession, reaction_type: emoji),
+                method: :post,
+                class: "transition transform hover:scale-110 focus:outline-none px-2 py-1 rounded hover:bg-gray-100" do %>
+            <span>
+              <%= case emoji
+                  when "like" then "❤️"
+                  when "hug" then "🤗"
+                  when "laugh" then "😂"
+                  end %>
+              <span class="text-sm text-gray-500">(<%= confession.reactions.where(reaction_type: emoji).count %>)</span>
+            </span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
