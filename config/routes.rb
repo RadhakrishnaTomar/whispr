@@ -13,8 +13,8 @@ Rails.application.routes.draw do
   # root "posts#index"
   root "confessions#index"
 
-   resources :confessions, only: [:index, :create] do
-     resources :reactions, only: [:create]
+   resources :confessions, only: [ :index, :create ] do
+     resources :reactions, only: [ :create ]
      collection do
        get :trending
      end
