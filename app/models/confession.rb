@@ -7,19 +7,11 @@ class Confession < ApplicationRecord
   scope :recent, -> { order(created_at: :desc) }
 
   def self.ransackable_associations(auth_object = nil)
-    ["reactions"]
+    [ "reactions" ]
   end
-
-  # def self.ransackable_attributes(auth_object = nil)
-  #   ["body", "created_at", "id", "id_value", "ip", "updated_at"]
-  # end
 
    def self.ransackable_attributes(auth_object = nil)
-    ["confession_id", "created_at", "id", "id_value", "ip", "reaction_type", "updated_at"]
-  end
-
-  def self.ransackable_attributes(auth_object = nil)
-    ["confession_id", "created_at", "id", "id_value", "ip", "reaction_type", "updated_at"]
+    [ "confession_id", "created_at", "id", "id_value", "ip", "reaction_type", "updated_at" ]
   end
 
   def self.ransackable_attributes(auth_object = nil)

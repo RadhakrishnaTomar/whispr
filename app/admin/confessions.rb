@@ -26,7 +26,7 @@ ActiveAdmin.register Confession do
     end
     active_admin_comments
   end
-  
+
   form do |f|
     f.inputs "Edit Confession" do
       f.input :body

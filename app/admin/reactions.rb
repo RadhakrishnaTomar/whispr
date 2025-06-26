@@ -37,7 +37,7 @@ ActiveAdmin.register Reaction do
 
   form do |f|
     f.inputs "Reaction Details" do
-      f.input :confession_id, as: :select, collection: Confession.pluck(:id, :body).map { |id, body| [body.truncate(50), id] }
+      f.input :confession_id, as: :select, collection: Confession.pluck(:id, :body).map { |id, body| [ body.truncate(50), id ] }
       f.input :reaction_type, as: :select, collection: [ "like", "hug", "laugh" ]
       f.input :ip
     end
